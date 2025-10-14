@@ -1,5 +1,4 @@
 package com.kalleb.arvore_api.controller;
-
 import com.kalleb.arvore_api.model.Arvore;
 import com.kalleb.arvore_api.service.ArvoreService;
 import org.springframework.beans.factory.annotation.Autowired;

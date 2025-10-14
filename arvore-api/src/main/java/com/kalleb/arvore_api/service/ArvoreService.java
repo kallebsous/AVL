@@ -1,5 +1,4 @@
 package com.kalleb.arvore_api.service;
-
 import com.kalleb.arvore_api.model.Arvore;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;

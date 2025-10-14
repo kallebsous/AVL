@@ -1,5 +1,4 @@
 package com.kalleb.arvore_api.model;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.ArrayList;
