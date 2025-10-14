@@ -1,0 +1,53 @@
+/* Este arquivo lida apenas com as linhas da árvore */
+.tree ul {
+  position: relative;
+  display: flex;
+}
+
+.tree li {
+  position: relative;
+  padding-top: 1.5rem; /* 24px */
+}
+
+/* Linhas horizontais e verticais */
+.tree li::before, .tree li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 2px solid #94a3b8; /* Tailwind slate-400 */
+  width: 50%;
+  height: 1.5rem; /* 24px */
+}
+
+.tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 2px solid #94a3b8; /* Tailwind slate-400 */
+}
+
+/* Remove conexões desnecessárias */
+.tree li:only-child::after, .tree li:only-child::before {
+  display: none;
+}
+.tree li:first-child::before, .tree li:last-child::after {
+  border: 0 none;
+}
+.tree li:last-child::before {
+  border-right: 2px solid #94a3b8; /* Tailwind slate-400 */
+  border-bottom-left-radius: 0.375rem; /* rounded-md */
+}
+.tree li:first-child::after {
+    border-top-left-radius: 0.375rem; /* rounded-md */
+}
+
+/* Linha vertical que desce do pai */
+.tree ul ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 2px solid #94a3b8; /* Tailwind slate-400 */
+  width: 0;
+  height: 1.5rem; /* 24px */
+}   
