@@ -1,6 +1,7 @@
 package com.kalleb.arvore_api.controller;
 
 import com.kalleb.arvore_api.service.AVLService;
+import com.kalleb.arvore_api.service.AVLService.NodeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,5 +20,10 @@ public class AVLController {
     @GetMapping("/info")
     public String info() {
         return avlService.getBalanceInfo();
+    }
+
+    @GetMapping("/tree-info")
+    public NodeInfo getTreeInfo() {
+        return avlService.getTreeInfo();
     }
 }

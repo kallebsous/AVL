@@ -7,6 +7,56 @@ import org.springframework.stereotype.Service;
 public class AVLService {
     private AVLNode root;
 
+    // Classe auxiliar para resposta detalhada
+    public static class NodeInfo {
+        public int value;
+        public int height;
+        public int balanceFactor;
+        public String rotation;
+        public NodeInfo left;
+        public NodeInfo right;
+        public NodeInfo(int value, int height, int balanceFactor, String rotation) {
+            this.value = value;
+            this.height = height;
+            this.balanceFactor = balanceFactor;
+            this.rotation = rotation;
+        }
+    }
+
+    // Retorna a árvore inteira com info de cada nó (valor, altura, fator, rotação sugerida)
+    public NodeInfo getTreeInfo() {
+        return buildNodeInfo(root);
+    }
+
+    private NodeInfo buildNodeInfo(AVLNode node) {
+        if (node == null) return null;
+        int bf = node.getBalanceFactor();
+        String rotation = suggestRotation(node);
+        NodeInfo info = new NodeInfo(node.getValue(), node.getHeight(), bf, rotation);
+        info.left = buildNodeInfo(node.getLeft());
+        info.right = buildNodeInfo(node.getRight());
+        return info;
+    }
+
+    // Sugere rotação para o nó atual
+    public String suggestRotation(AVLNode node) {
+        if (node == null) return "";
+        int bf = node.getBalanceFactor();
+        if (bf > 1) {
+            if (node.getRight() != null && node.getRight().getBalanceFactor() < 0) {
+                return "RL";
+            }
+            return "RR";
+        }
+        if (bf < -1) {
+            if (node.getLeft() != null && node.getLeft().getBalanceFactor() > 0) {
+                return "LR";
+            }
+            return "LL";
+        }
+        return "OK";
+    }
+
     public AVLNode getRoot() {
         return root;
     }
