@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/avl")
 public class AVLController {
+
+    @PostMapping("/resetar")
+    public String resetar() {
+        avlService.resetarArvore();
+        return "Árvore e histórico resetados.";
+    }
     @Autowired
     private AVLService avlService;
 
@@ -25,5 +31,16 @@ public class AVLController {
     @GetMapping("/tree-info")
     public NodeInfo getTreeInfo() {
         return avlService.getTreeInfo();
+    }
+
+    @PostMapping("/balancear")
+    public String balancear() {
+        avlService.balancearArvore();
+        return "Árvore balanceada.";
+    }
+
+    @GetMapping("/historico-rotacoes")
+    public java.util.List<String> historicoRotacoes() {
+        return avlService.getHistoricoRotacoes();
     }
 }

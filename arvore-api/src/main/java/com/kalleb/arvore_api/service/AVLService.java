@@ -2,10 +2,18 @@ package com.kalleb.arvore_api.service;
 
 import com.kalleb.arvore_api.model.AVLNode;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AVLService {
+    // Reseta a árvore e o histórico
+    public void resetarArvore() {
+        root = null;
+        historicoRotacoes.clear();
+    }
     private AVLNode root;
+    private List<String> historicoRotacoes = new ArrayList<>();
 
     // Classe auxiliar para resposta detalhada
     public static class NodeInfo {
@@ -61,6 +69,7 @@ public class AVLService {
         return root;
     }
 
+
     public void insert(int value) {
         root = insertRec(root, value);
     }
@@ -75,7 +84,64 @@ public class AVLService {
             return node; // Duplicados não são inseridos
         }
         updateHeight(node);
-        return balance(node);
+        // Não balanceia automaticamente!
+        return node;
+    }
+
+    // Método para balancear a árvore inteira manualmente
+    public void balancearArvore() {
+        root = balancearRec(root);
+    }
+
+    private AVLNode balancearRec(AVLNode node) {
+        if (node == null) return null;
+        node.setLeft(balancearRec(node.getLeft()));
+        node.setRight(balancearRec(node.getRight()));
+        updateHeight(node);
+        int balance = node.getBalanceFactor();
+        if (balance > 1) {
+            if (node.getLeft() != null && node.getLeft().getBalanceFactor() < 0) {
+                historicoRotacoes.add("Rotação dupla esquerda-direita no nó " + node.getValue());
+                node.setLeft(rotateLeftComHistorico(node.getLeft()));
+                return rotateRightComHistorico(node);
+            }
+            historicoRotacoes.add("Rotação simples à direita no nó " + node.getValue());
+            return rotateRightComHistorico(node);
+        }
+        if (balance < -1) {
+            if (node.getRight() != null && node.getRight().getBalanceFactor() > 0) {
+                historicoRotacoes.add("Rotação dupla direita-esquerda no nó " + node.getValue());
+                node.setRight(rotateRightComHistorico(node.getRight()));
+                return rotateLeftComHistorico(node);
+            }
+            historicoRotacoes.add("Rotação simples à esquerda no nó " + node.getValue());
+            return rotateLeftComHistorico(node);
+        }
+        return node;
+    }
+
+    private AVLNode rotateLeftComHistorico(AVLNode y) {
+        AVLNode x = y.getRight();
+        AVLNode T2 = x.getLeft();
+        x.setLeft(y);
+        y.setRight(T2);
+        updateHeight(y);
+        updateHeight(x);
+        return x;
+    }
+
+    private AVLNode rotateRightComHistorico(AVLNode y) {
+        AVLNode x = y.getLeft();
+        AVLNode T2 = x.getRight();
+        x.setRight(y);
+        y.setLeft(T2);
+        updateHeight(y);
+        updateHeight(x);
+        return x;
+    }
+
+    public List<String> getHistoricoRotacoes() {
+        return historicoRotacoes;
     }
 
     private void updateHeight(AVLNode node) {
@@ -86,19 +152,19 @@ public class AVLService {
 
     private AVLNode balance(AVLNode node) {
         int balance = node.getBalanceFactor();
-        // Rotação à esquerda
-        if (balance > 1) {
-            if (node.getRight() != null && node.getRight().getBalanceFactor() < 0) {
-                node.setRight(rotateRight(node.getRight())); // RL
-            }
-            return rotateLeft(node); // RR
-        }
         // Rotação à direita
-        if (balance < -1) {
-            if (node.getLeft() != null && node.getLeft().getBalanceFactor() > 0) {
+        if (balance > 1) {
+            if (node.getLeft() != null && node.getLeft().getBalanceFactor() < 0) {
                 node.setLeft(rotateLeft(node.getLeft())); // LR
             }
             return rotateRight(node); // LL
+        }
+        // Rotação à esquerda
+        if (balance < -1) {
+            if (node.getRight() != null && node.getRight().getBalanceFactor() > 0) {
+                node.setRight(rotateRight(node.getRight())); // RL
+            }
+            return rotateLeft(node); // RR
         }
         return node;
     }

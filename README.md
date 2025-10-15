@@ -32,18 +32,49 @@ Tudo é feito de forma visual, com feedback claro (erros, sucesso, loading). O l
 
 ---
 
-## Como rodar
 
+## Como rodar o projeto
 
-1. **Back-end:**
-   - Entre na pasta `arvore-api` e rode `./mvnw spring-boot:run` (precisa do Java 17+ instalado)
-   - A API vai subir em `http://localhost:8080`
+### Pré-requisitos
+- **Java 17 ou superior** instalado (para o back-end)
+- **Node.js** e **npm** instalados (para o front-end)
 
-2. **Front-end:**
-   - Entre na pasta `front-arvore` e rode `npm install` e depois `npm run dev`
-   - Acesse `http://localhost:5173` no navegador
+---
 
-Pronto! Basta inserir valores e visualizar o balanceamento AVL em tempo real.
+### 1. Rodando o Back-end (Java Spring Boot)
+
+Abra um terminal e execute:
+
+```sh
+cd arvore-api
+mvnw.cmd spring-boot:run
+```
+
+Se preferir, pode usar o Maven global (se tiver instalado):
+
+```sh
+mvn spring-boot:run
+```
+
+A API ficará disponível em: http://localhost:8080
+
+---
+
+### 2. Rodando o Front-end (React)
+
+Abra outro terminal e execute:
+
+```sh
+cd front-arvore
+npm install
+npm run dev
+```
+
+O front-end estará em: http://localhost:5173 (ou outra porta, veja o terminal)
+
+---
+
+Pronto! Basta acessar o front-end, inserir valores e visualizar o balanceamento AVL em tempo real.
 
 ---
 
