@@ -51,16 +51,18 @@ public class AVLService {
         if (node == null) return "";
         int bf = node.getBalanceFactor();
         if (bf > 1) {
-            if (node.getRight() != null && node.getRight().getBalanceFactor() < 0) {
-                return "RL";
-            }
-            return "RR";
-        }
-        if (bf < -1) {
-            if (node.getLeft() != null && node.getLeft().getBalanceFactor() > 0) {
+            // left heavy
+            if (node.getLeft() != null && node.getLeft().getBalanceFactor() < 0) {
                 return "LR";
             }
             return "LL";
+        }
+        if (bf < -1) {
+            // right heavy
+            if (node.getRight() != null && node.getRight().getBalanceFactor() > 0) {
+                return "RL";
+            }
+            return "RR";
         }
         return "OK";
     }
@@ -145,8 +147,8 @@ public class AVLService {
     }
 
     private void updateHeight(AVLNode node) {
-        int leftHeight = (node.getLeft() != null) ? node.getLeft().getHeight() : 0;
-        int rightHeight = (node.getRight() != null) ? node.getRight().getHeight() : 0;
+        int leftHeight = (node.getLeft() != null) ? node.getLeft().getHeight() : -1;
+        int rightHeight = (node.getRight() != null) ? node.getRight().getHeight() : -1;
         node.setHeight(1 + Math.max(leftHeight, rightHeight));
     }
 

@@ -8,7 +8,7 @@ public class AVLNode {
 
     public AVLNode(int value) {
         this.value = value;
-        this.height = 0;
+        this.height = 0; // leaf height = 0
     }
 
     public int getValue() { return value; }
@@ -24,8 +24,8 @@ public class AVLNode {
     public void setRight(AVLNode right) { this.right = right; }
 
     public int getBalanceFactor() {
-        int leftHeight = (left != null) ? left.height : 0;
-        int rightHeight = (right != null) ? right.height : 0;
+        int leftHeight = (left != null) ? left.height : -1;
+        int rightHeight = (right != null) ? right.height : -1;
         return leftHeight - rightHeight;
     }
 }
