@@ -36,9 +36,10 @@ function AVLTreeNode({ node }) {
 // Componente recursivo para exibir cada nó AVL com informações
 
 function App() {
+  // Normalize API base URL (remove trailing slash) and allow VITE_API_URL override
+  const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8080').replace(/\/+$/, '');
   // Resetar árvore e histórico
   const handleResetar = () => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
     fetch(`${API_URL}/api/avl/resetar`, { method: 'POST' })
       .then(() => {
         fetchAVLTree();
@@ -56,7 +57,6 @@ function App() {
 
   // Buscar histórico de rotações
   const fetchHistorico = () => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
     fetch(`${API_URL}/api/avl/historico-rotacoes`)
       .then(res => res.json())
       .then(data => setHistorico(data || []));
@@ -64,7 +64,6 @@ function App() {
 
   // Balancear árvore manualmente
   const handleBalancear = () => {
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
     fetch(`${API_URL}/api/avl/balancear`, { method: 'POST' })
       .then(() => {
         fetchAVLTree();
@@ -76,7 +75,6 @@ function App() {
   // Buscar árvore AVL do backend
   const fetchAVLTree = () => {
     setLoading(true);
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
     fetch(`${API_URL}/api/avl/tree-info`)
       .then(response => {
         if (!response.ok) {
@@ -112,7 +110,6 @@ function App() {
     e.preventDefault();
     if (!novoValor) return;
     setInserindo(true);
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
     fetch(`${API_URL}/api/avl/inserir?valor=${novoValor}`, { method: 'POST' })
       .then(() => {
         setNovoValor("");
