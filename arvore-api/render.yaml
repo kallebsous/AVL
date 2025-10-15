@@ -1,0 +1,12 @@
+# Suggested Render service configuration for Docker deploy
+services:
+  - name: arvore-api
+    type: web
+    env: docker
+    plan: free
+    branch: main
+    buildCommand: ""
+    dockerfilePath: Dockerfile
+    workingDirectory: .
+    ports:
+      - 8080
