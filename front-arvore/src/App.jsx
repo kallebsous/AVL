@@ -38,7 +38,8 @@ function AVLTreeNode({ node }) {
 function App() {
   // Resetar árvore e histórico
   const handleResetar = () => {
-    fetch('http://localhost:8080/api/avl/resetar', { method: 'POST' })
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+    fetch(`${API_URL}/api/avl/resetar`, { method: 'POST' })
       .then(() => {
         fetchAVLTree();
         fetchHistorico();
@@ -55,14 +56,16 @@ function App() {
 
   // Buscar histórico de rotações
   const fetchHistorico = () => {
-    fetch('http://localhost:8080/api/avl/historico-rotacoes')
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+    fetch(`${API_URL}/api/avl/historico-rotacoes`)
       .then(res => res.json())
       .then(data => setHistorico(data || []));
   };
 
   // Balancear árvore manualmente
   const handleBalancear = () => {
-    fetch('http://localhost:8080/api/avl/balancear', { method: 'POST' })
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+    fetch(`${API_URL}/api/avl/balancear`, { method: 'POST' })
       .then(() => {
         fetchAVLTree();
         fetchHistorico();
@@ -73,7 +76,8 @@ function App() {
   // Buscar árvore AVL do backend
   const fetchAVLTree = () => {
     setLoading(true);
-    fetch('http://localhost:8080/api/avl/tree-info')
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+    fetch(`${API_URL}/api/avl/tree-info`)
       .then(response => {
         if (!response.ok) {
           // Só mostra erro se realmente não conseguir conectar (ex: servidor fora do ar)
@@ -108,7 +112,8 @@ function App() {
     e.preventDefault();
     if (!novoValor) return;
     setInserindo(true);
-    fetch(`http://localhost:8080/api/avl/inserir?valor=${novoValor}`, { method: 'POST' })
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+    fetch(`${API_URL}/api/avl/inserir?valor=${novoValor}`, { method: 'POST' })
       .then(() => {
         setNovoValor("");
         setInserindo(false);
